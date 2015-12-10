@@ -1,0 +1,32 @@
+module dnsmasq {
+  namespace "urn:ietf:params:xml:ns:yang:dnsmasq";
+  prefix ob;
+
+  description
+    "dnsmasq yang model";
+  contact
+    "mislav.novakovic@sartura.hr";
+
+  revision 2015-12-01 {
+    description
+      "Inital revision";
+  }
+
+  container dnsmasq {
+    leaf port {
+      type int32;
+    }
+    leaf username {
+      type string;
+    }
+    leaf groupname {
+      type string;
+    }
+    leaf addr4_netmask {
+      type int32;
+    }
+    leaf addr6_netmask {
+      type int32;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="dnsmasq"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:ob="urn:ietf:params:xml:ns:yang:dnsmasq">
+  <namespace uri="urn:ietf:params:xml:ns:yang:dnsmasq"/>
+  <prefix value="ob"/>
+  <description>
+    <text>dnsmasq yang model</text>
+  </description>
+  <contact>
+    <text>mislav.novakovic@sartura.hr</text>
+  </contact>
+  <revision date="2015-12-01">
+    <description>
+      <text>Inital revision</text>
+    </description>
+  </revision>
+  <container name="dnsmasq">
+    <leaf name="port">
+      <type name="int32"/>
+    </leaf>
+    <leaf name="username">
+      <type name="string"/>
+    </leaf>
+    <leaf name="groupname">
+      <type name="string"/>
+    </leaf>
+    <leaf name="addr4_netmask">
+      <type name="int32"/>
+    </leaf>
+    <leaf name="addr6_netmask">
+      <type name="int32"/>
+    </leaf>
+  </container>
+</module>

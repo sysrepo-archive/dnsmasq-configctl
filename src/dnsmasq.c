@@ -18,6 +18,7 @@
 #define DNSMASQ_COMPILE_OPTS
 
 #include "dnsmasq.h"
+#include <configctl.h>
 
 struct daemon *daemon;
 
@@ -31,6 +32,28 @@ static void async_event(int pipe, time_t now);
 static void fatal_event(struct event_desc *ev, char *msg);
 static int read_event(int fd, struct event_desc *evp, char **msg);
 static void poll_resolv(int force, int do_reload, time_t now);
+
+struct configctl *ctl_init()
+{
+	struct configctl *ctx = NULL;
+	int ret;
+
+	char *config_xml = "/etc/configctl/dnsmasq.xml";
+	char *yang_file = "/etc/yang/dnsmasq@2015-12-01.yin";
+	char *yang_folder = "/etc/yang/";
+
+	ctx = calloc(1, sizeof(struct configctl));
+	if (!ctx)
+		return NULL;
+
+	ret = configctl_init(ctx, config_xml, yang_file, yang_folder);
+	if (ret) {
+		printf("error in configctl_init()\n");
+		return NULL;
+	}
+
+	return ctx;
+}
 
 int main (int argc, char **argv)
 {
@@ -87,7 +110,54 @@ int main (int argc, char **argv)
   rand_init(); /* Must precede read_opts() */
   
   read_opts(argc, argv, compile_opts);
- 
+
+  printf("---------------------------------------------\n");
+  struct configctl *ctx = ctl_init();
+  if (ctx)
+    {
+    const char *tmp;
+    int port, addr4_netmask, addr6_netmask;
+    int ret;
+
+    tmp = configctl_get_string(ctx, "dnsmasq/username");
+    if (!tmp)
+    	printf("error in configctl_get_string()\n");
+    else
+        daemon->username = strdup(tmp);
+
+    tmp = configctl_get_string(ctx, "dnsmasq/groupname");
+    if (!tmp)
+    	printf("error in configctl_get_string()\n");
+    else
+        daemon->groupname = strdup(tmp);
+
+    ret = configctl_get_int32(ctx, "dnsmasq/port", &port);
+    if (ret)
+    	printf("error in configctl_get_int32()\n");
+    else
+        daemon->port = port;
+
+    ret = configctl_get_int32(ctx, "dnsmasq/addr4_netmask", &addr4_netmask);
+    if (ret)
+    	printf("error in configctl_get_int32()\n");
+    else
+        daemon->addr4_netmask = addr4_netmask;
+
+    ret = configctl_get_int32(ctx, "dnsmasq/addr6_netmask", &addr6_netmask);
+    if (ret)
+    	printf("error in configctl_get_int32()\n");
+    else
+        daemon->addr6_netmask = addr6_netmask;
+
+    printf("deamon->username is %s\n", daemon->username);
+    printf("deamon->groupname is %s\n", daemon->groupname);
+    printf("deamon->port is %d\n", daemon->port);
+    printf("deamon->addr4_netmask is %d\n", daemon->addr4_netmask);
+    printf("deamon->addr6_netmask is %d\n", daemon->addr6_netmask);
+
+    configctl_destroy(ctx);
+    }
+
   if (daemon->edns_pktsz < PACKETSZ)
     daemon->edns_pktsz = PACKETSZ;
 

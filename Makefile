@@ -24,11 +24,12 @@ MANDIR        = $(PREFIX)/share/man
 LOCALEDIR     = $(PREFIX)/share/locale
 BUILDDIR      = $(SRC)
 DESTDIR       = 
-CFLAGS        = -Wall -W -O2
-LDFLAGS       = 
+INCLUDES      = -I /usr/local/include/libconfigctl
+CFLAGS        = -Wall -W -O2 $(INCLUDES)
+LDFLAGS       = -L/usr/local/lib/
 COPTS         = 
 RPM_OPT_FLAGS = 
-LIBS          = 
+LIBS          = -lconfigctl
 
 #################################################################
 

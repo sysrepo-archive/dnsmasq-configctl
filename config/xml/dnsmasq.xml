@@ -1,0 +1,9 @@
+<libyang>
+  <dnsmasq xmlns="urn:ietf:params:xml:ns:yang:dnsmasq">
+    <port>53</port>
+    <username>root</username>
+    <groupname>root</groupname>
+    <addr4_netmask>32</addr4_netmask>
+    <addr6_netmask>128</addr6_netmask>
+  </dnsmasq>
+</libyang>
