@@ -18,7 +18,7 @@
 #define DNSMASQ_COMPILE_OPTS
 
 #include "dnsmasq.h"
-#include <configctl.h>
+#include "configctl.h"
 
 struct daemon *daemon;
 
