@@ -14,7 +14,9 @@ module dnsmasq {
 
   container dnsmasq {
     leaf port {
-      type int32;
+      type int32{
+        range "1..65535";
+      }
     }
     leaf username {
       type string;
@@ -23,10 +25,14 @@ module dnsmasq {
       type string;
     }
     leaf addr4_netmask {
-      type int32;
+      type int32{
+        range "0..32";
+      }
     }
     leaf addr6_netmask {
-      type int32;
+      type int32{
+        range "0..128";
+      }
     }
   }
 }

@@ -17,7 +17,9 @@
   </revision>
   <container name="dnsmasq">
     <leaf name="port">
-      <type name="int32"/>
+      <type name="int32">
+        <range value="1..65535"/>
+      </type>
     </leaf>
     <leaf name="username">
       <type name="string"/>
@@ -26,10 +28,14 @@
       <type name="string"/>
     </leaf>
     <leaf name="addr4_netmask">
-      <type name="int32"/>
+      <type name="int32">
+        <range value="0..32"/>
+      </type>
     </leaf>
     <leaf name="addr6_netmask">
-      <type name="int32"/>
+      <type name="int32">
+        <range value="0..128"/>
+      </type>
     </leaf>
   </container>
 </module>
